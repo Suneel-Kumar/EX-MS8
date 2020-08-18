@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+</head>
+<body>
+    <div id="input-area">
+        <input id="input" placeholder="Write any item name here..." size="30" />
+        <button onclick="AddItem()">Add</button>
+    </div>
+    <br>
+    <ul id="list">
+
+    </ul>
+
+    <script>
+
+        function AddItem(){
+            var inputElement = document.getElementById('input');
+            var listItem = document.createElement('li');
+            listItem.innerHTML = "<span>" + inputElement.value + "</span>"
+
+            var editButton = document.createElement('button');
+            editButton.innerHTML = "Edit";
+            editButton.setAttribute('onclick', 'editItem(event)');
+            listItem.appendChild(editButton);
+
+            var deleteButton = document.createElement('button');
+            deleteButton.innerHTML = "Delete";
+            deleteButton.setAttribute('onclick', 'deleteItem(event)');
+            listItem.appendChild(deleteButton);
+
+            var list = document.getElementById('list');
+            list.appendChild(listItem);
+            inputElement.value = "";
+        }
+
+        function deleteItem(e){
+            var listItem = e.target.parentElement;
+            listItem.remove();
+        }
+
+        function editItem(e){
+            var currentElement = document.getElementById('current-edit');
+            if(currentElement){
+                currentElement.removeAttribute('id');
+            }
+
+            var valueElement = e.target.parentElement.children[0];
+            document.getElementById('input').value = valueElement.innerHTML;
+            valueElement.setAttribute('id', 'current-edit');
+            var inputArea = document.getElementById('input-area');
+            var button = inputArea.children[1];
+            button.innerHTML = "Update";
+            button.setAttribute('onclick', 'updateItem()');
+        }
+
+        function updateItem(){
+            var inputElement = document.getElementById('input');
+            var currentEdit = document.getElementById('current-edit');
+            currentEdit.innerHTML = inputElement.value;
+            currentEdit.removeAttribute('id');
+            inputElement.value = "";
+            var inputArea = document.getElementById('input-area');
+            var button = inputArea.children[1];
+            button.innerHTML = "Add";
+            button.setAttribute('onclick', 'AddItem()');
+        }
+
+    </script>
+</body>
+
+</html>
